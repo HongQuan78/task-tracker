@@ -1,7 +1,10 @@
+/*
+Copyright © 2025 NAME HERE vohongquan.dev@gmail.com
+*/
 package main
 
-import "fmt"
+import "task-tracker/cmd"
 
 func main() {
-    fmt.Println("Task Tracker CLI")
+	cmd.Execute()
 }
