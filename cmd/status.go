@@ -46,6 +46,6 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(statusCmd)
-	listCmd.Flags().StringVarP(&status, "status", "s", "", "Update status: todo|in-progress|done")
+	statusCmd.Flags().StringVar(&status, "set-status", "", "Update status: todo|in-progress|done")
 
 }
