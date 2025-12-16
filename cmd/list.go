@@ -31,7 +31,7 @@ Examples:
 		// Case: list all
 		if len(args) == 0 {
 			for _, task := range tasks {
-				fmt.Printf("[%d] %s (done: %v)\n", task.Id, task.Title, task.IsCompleted)
+				fmt.Printf("[%d] %s (status: %v)\n", task.Id, task.Description, task.Status)
 			}
 			return nil
 		}
@@ -44,7 +44,7 @@ Examples:
 
 		for _, task := range tasks {
 			if task.Id == id {
-				fmt.Printf("[%d] %s (completed: %v, deleted: %v)\n", task.Id, task.Title, task.IsCompleted, task.IsDeleted)
+				fmt.Printf("[%d] %s (completed: %v)\n", task.Id, task.Description, task.Status)
 				return nil
 			}
 		}

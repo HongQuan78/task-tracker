@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE vohongquan.dev@gmail.com
+Copyright © 2025 vohongquan.dev@gmail.com
 */
 package main
 

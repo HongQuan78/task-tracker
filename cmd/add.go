@@ -6,6 +6,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"task-tracker/internal/storage"
 
 	"github.com/spf13/cobra"
 )
@@ -24,7 +25,10 @@ marked as done, or deleted later.`,
 		if title == "" {
 			return errors.New("task title cannot be empty")
 		}
-
+		err := storage.AddTask(title)
+		if err != nil {
+			return err
+		}
 		fmt.Println("✅ Task added:", title)
 		return nil
 	},

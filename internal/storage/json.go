@@ -3,6 +3,7 @@ package storage
 import (
 	"encoding/json"
 	"os"
+	"slices"
 	"task-tracker/internal/model"
 )
 
@@ -85,4 +86,24 @@ func AddTask(title string) error {
 	tasks = append(tasks, task)
 
 	return SaveTasks(tasks)
+}
+
+func DeleteTask(id int) error {
+	tasks, index, err := GetTaskIndexById(id)
+	if err != nil {
+		return err
+	}
+
+	tasks = slices.Delete(tasks, index, index+1)
+
+	if err := SaveTasks(tasks); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func UpdateTask(id int, title string) error {
+
+	return nil
 }

@@ -6,18 +6,19 @@ import (
 
 type Task struct {
 	Id          int
-	Title       string
+	Description string
+	Status      TaskStatus
 	CreatedAt   time.Time
-	IsDeleted   bool
-	IsCompleted bool
+	UpdatedAt   time.Time
 }
 
-func NewTask(title string, id int) Task {
+func NewTask(description string, id int) Task {
+	now := time.Now()
 	return Task{
 		Id:          id,
-		Title:       title,
-		CreatedAt:   time.Now(),
-		IsCompleted: false,
-		IsDeleted:   false,
+		Description: description,
+		Status:      StatusTodo,
+		CreatedAt:   now,
+		UpdatedAt:   now,
 	}
 }
