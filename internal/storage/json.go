@@ -6,6 +6,7 @@ import (
 	"os"
 	"slices"
 	"task-tracker/internal/model"
+	"time"
 )
 
 const JSON_PATH = "internal/storage/data.json"
@@ -104,8 +105,18 @@ func DeleteTask(id int) error {
 	return nil
 }
 
-func UpdateTask(id int, title string) error {
+func UpdateTask(id int, description string) error {
+	tasks, index, err := GetTaskIndexById(id)
+	if err != nil {
+		return err
+	}
 
+	tasks[index].Description = description
+	tasks[index].UpdatedAt = time.Now()
+
+	if err := SaveTasks(tasks); err != nil {
+		return err
+	}
 	return nil
 }
 

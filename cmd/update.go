@@ -4,36 +4,49 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"errors"
 	"fmt"
+	"strconv"
+	"task-tracker/internal/storage"
 
 	"github.com/spf13/cobra"
 )
 
+var description string
+
 // updateCmd represents the update command
 var updateCmd = &cobra.Command{
-	Use:   "update",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "update [id]",
+	Short: "Update a task description by id",
+	Long: `Update the description of a task by its id.
+Pass the id as the argument and the new description via the flag.`,
+	Args: cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		id := args[0]
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("update called")
+		if id == "" || description == "" {
+			return errors.New("id and description are required")
+		}
+
+		updateId, err := strconv.Atoi(id)
+
+		if err != nil {
+			return err
+		}
+
+		err = storage.UpdateTask(updateId, description)
+
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("✅ Task Updated.")
+		return nil
+
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(updateCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// updateCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// updateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	updateCmd.Flags().StringVarP(&description, "description", "d", "", "Description")
 }
