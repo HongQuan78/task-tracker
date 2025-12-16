@@ -71,7 +71,7 @@ func GetNextTaskID() (int, error) {
 	return maxId + 1, nil
 }
 
-func AddTask(title string) error {
+func AddTask(description string) error {
 	tasks, err := LoadTasks()
 	if err != nil {
 		return err
@@ -82,7 +82,7 @@ func AddTask(title string) error {
 		return err
 	}
 
-	task := model.NewTask(title, id)
+	task := model.NewTask(description, id)
 	tasks = append(tasks, task)
 
 	return SaveTasks(tasks)

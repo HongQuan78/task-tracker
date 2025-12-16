@@ -12,7 +12,7 @@ import (
 )
 
 var addCmd = &cobra.Command{
-	Use:   "add [title]",
+	Use:   "add [description]",
 	Short: "Add a new task",
 	Long: `Add a new task to the task tracker.
 
@@ -20,16 +20,16 @@ The task will be stored locally and can be listed, updated,
 marked as done, or deleted later.`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		title := args[0]
+		description := args[0]
 
-		if title == "" {
-			return errors.New("task title cannot be empty")
+		if description == "" {
+			return errors.New("task description cannot be empty")
 		}
-		err := storage.AddTask(title)
+		err := storage.AddTask(description)
 		if err != nil {
 			return err
 		}
-		fmt.Println("✅ Task added:", title)
+		fmt.Println("✅ Task added:", description)
 		return nil
 	},
 }
