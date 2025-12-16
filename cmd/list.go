@@ -4,16 +4,17 @@ Copyright © 2025 vohongquan.dev@gmail.com
 package cmd
 
 import (
-	"errors"
 	"fmt"
-	"strconv"
+	"task-tracker/internal/model"
 	"task-tracker/internal/storage"
 
 	"github.com/spf13/cobra"
 )
 
+var statusFilter string
+
 var listCmd = &cobra.Command{
-	Use:   "list [id]",
+	Use:   "list",
 	Short: "List tasks",
 	Long: `Display all tasks or a specific task by ID.
 
@@ -21,48 +22,38 @@ Examples:
   task list
   task list 3
 `,
-	Args: cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		tasks, err := storage.LoadTasks()
 		if err != nil {
 			return err
 		}
 
-		// Case: list all
+		filter := model.TaskStatus("")
+
+		if statusFilter != "" {
+			switch statusFilter {
+			case string(model.StatusTodo), string(model.StatusInProgress), string(model.StatusDone):
+				filter = model.TaskStatus(statusFilter)
+			default:
+				return fmt.Errorf("invalid status, use: todo | in-progress | done")
+			}
+		}
+
 		if len(args) == 0 {
 			for _, task := range tasks {
+				if task.Status != filter {
+					continue
+				}
 				fmt.Printf("[%d] %s (status: %v)\n", task.Id, task.Description, task.Status)
 			}
 			return nil
 		}
 
-		// Case: list by id
-		id, err := strconv.Atoi(args[0])
-		if err != nil {
-			return errors.New("invalid id, id must be an integer")
-		}
-
-		for _, task := range tasks {
-			if task.Id == id {
-				fmt.Printf("[%d] %s (completed: %v)\n", task.Id, task.Description, task.Status)
-				return nil
-			}
-		}
-
-		return fmt.Errorf("task with id %d not found", id)
+		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	listCmd.Flags().StringVarP(&statusFilter, "status", "s", "", "Filter by status: todo|in-progress|done")
 }
