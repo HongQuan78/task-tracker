@@ -2,6 +2,7 @@ package storage
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 	"slices"
 	"task-tracker/internal/model"
@@ -105,5 +106,17 @@ func DeleteTask(id int) error {
 
 func UpdateTask(id int, title string) error {
 
+	return nil
+}
+
+func ChangeStatus(status string, id int) error {
+	tasks, index, err := GetTaskIndexById(id)
+	if err != nil {
+		return err
+	}
+	if status != string(model.StatusDone) && status != string(model.StatusInProgress) && status != string(model.StatusTodo) {
+		return errors.New("task description cannot be empty")
+	}
+	tasks[index].Status = model.TaskStatus(status)
 	return nil
 }

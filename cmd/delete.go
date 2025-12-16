@@ -5,6 +5,8 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
+	"task-tracker/internal/storage"
 
 	"github.com/spf13/cobra"
 )
@@ -19,21 +21,24 @@ The specified task will be permanently removed and can no longer
 be listed or updated.`,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println("delete called")
+		id := args[0]
+		if id == "" {
+			fmt.Println("The ID is required. Please provide an ID to delete the task.")
+		}
+		deleteId, err := strconv.Atoi(id)
+		if err != nil {
+			return err
+		}
+
+		if err := storage.DeleteTask(deleteId); err != nil {
+			return err
+		}
+
+		fmt.Println("✅ Task deleted.")
 		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// deleteCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
