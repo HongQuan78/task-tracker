@@ -126,8 +126,13 @@ func ChangeStatus(status string, id int) error {
 		return err
 	}
 	if status != string(model.StatusDone) && status != string(model.StatusInProgress) && status != string(model.StatusTodo) {
-		return errors.New("task description cannot be empty")
+		return errors.New("invalid status: use todo | in-progress | done")
 	}
 	tasks[index].Status = model.TaskStatus(status)
+	tasks[index].UpdatedAt = time.Now()
+	err = SaveTasks(tasks)
+	if err != nil {
+		return err
+	}
 	return nil
 }

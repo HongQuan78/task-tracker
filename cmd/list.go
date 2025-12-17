@@ -23,6 +23,7 @@ var listCmd = &cobra.Command{
 Examples:
   task list
 `,
+	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		tasks, err := storage.LoadTasks()
 		if err != nil {

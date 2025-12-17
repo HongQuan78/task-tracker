@@ -20,6 +20,9 @@ The task will be stored locally and can be listed, updated,
 marked as done, or deleted later.`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(args) < 1 {
+			return fmt.Errorf("id is required. Please provide an ID to delete the task")
+		}
 		description := args[0]
 
 		if description == "" {

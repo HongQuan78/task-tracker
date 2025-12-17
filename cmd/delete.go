@@ -19,11 +19,14 @@ var deleteCmd = &cobra.Command{
 
 The specified task will be permanently removed and can no longer
 be listed or updated.`,
-
+	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(args) < 1 {
+			return fmt.Errorf("id is required; please provide an Id to delete the task")
+		}
 		id := args[0]
 		if id == "" {
-			fmt.Println("The ID is required. Please provide an ID to delete the task.")
+			fmt.Println("The Id is required. Please provide an Id to delete the task.")
 		}
 		deleteId, err := strconv.Atoi(id)
 		if err != nil {
