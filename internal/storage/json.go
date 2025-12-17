@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const JSON_PATH = "internal/storage/data.json"
+const JSON_PATH = "data.json"
 
 func LoadTasks() ([]model.Task, error) {
 	if _, err := os.Stat(JSON_PATH); os.IsNotExist(err) {

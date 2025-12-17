@@ -13,14 +13,15 @@ import (
 
 var statusFilter string
 
+const timeFmt = "2-1-2006 15:04:05"
+
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List tasks",
-	Long: `Display all tasks or a specific task by ID.
+	Long: `Display all tasks.
 
 Examples:
   task list
-  task list 3
 `,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		tasks, err := storage.LoadTasks()
@@ -41,10 +42,17 @@ Examples:
 
 		if len(args) == 0 {
 			for _, task := range tasks {
-				if task.Status != filter {
+				if filter != "" && task.Status != filter {
 					continue
 				}
-				fmt.Printf("[%d] %s (status: %v)\n", task.Id, task.Description, task.Status)
+				fmt.Printf(
+					"[%d] %s (status: %v) \ncreated: %s \nupdated: %s\n",
+					task.Id,
+					task.Description,
+					task.Status,
+					task.CreatedAt.Format(timeFmt),
+					task.UpdatedAt.Format(timeFmt),
+				)
 			}
 			return nil
 		}
