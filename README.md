@@ -19,7 +19,7 @@ Task Tracker is a small CLI for managing tasks directly in your terminal. Tasks 
 - Delete a task: `go run . delete 3`
 
 ## Data storage
-- All tasks live in `internal/storage/data.json`
+- All tasks live in `data.json`
 - Each task: `Id`, `Description`, `Status` (`todo | in-progress | done`), `CreatedAt`, `UpdatedAt`
 - Back up this file to move data between machines
 
@@ -30,4 +30,5 @@ Task Tracker is a small CLI for managing tasks directly in your terminal. Tasks 
 ## Tips
 - Get help: `go run . --help` or `go run . <command> --help`
 - Reset data by deleting `data.json` (back it up first if needed)
+
 
