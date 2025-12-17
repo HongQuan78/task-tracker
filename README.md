@@ -4,7 +4,7 @@ Task Tracker is a small CLI for managing tasks directly in your terminal. Tasks 
 
 ## Requirements
 - Go 1.25+ (per `go.mod`)
-- OS permissions to write `internal/storage/data.json`
+- OS permissions to write `data.json`
 
 ## Quick start
 1) Clone the repo.
@@ -29,4 +29,5 @@ Task Tracker is a small CLI for managing tasks directly in your terminal. Tasks 
 
 ## Tips
 - Get help: `go run . --help` or `go run . <command> --help`
-- Reset data by deleting `internal/storage/data.json` (back it up first if needed)
+- Reset data by deleting `data.json` (back it up first if needed)
+
